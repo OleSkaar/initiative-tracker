@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initiative Roller</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Initiative Roller</h1>
+    <div class="creatures"></div>
+    <form class="main-form">
+        <input placeholder="Name" type="text" name="name" id="name" autocomplete="on" required />
+        <input placeholder="Roll" type="number" name="roll" pattern="[0-9]{2}" required />
+        <input placeholder="Max HP" type="number" name="maxHp" pattern="[0-9]{3}" required />
+        <button type="submit">Add</button>
+    </form>
+
+    <hr />
+
+    <button class="clear-button">Clear</button>
+      
+	<script src="index.js"></script>
+  </body>
+</html>
