@@ -1,0 +1,44 @@
+html {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 20px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+main {
+    display: block;
+}
+
+main > * + * {
+    margin: 1rem 0;
+}
+
+input {
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: [name] 2fr [roll] 0.5fr [hitPoints] 0.5fr [damage] 0.5fr [status] 2fr [end];
+}
+
+.table-headers {
+    border-bottom: 1px solid darkgray;
+    padding: 0.5rem 0;
+}
+
+.add-button {
+    grid-column-start: 5;
+    width: 100%;
+}
+
+.knocked-out {
+    color: slategray;
+    text-decoration: line-through;
+}

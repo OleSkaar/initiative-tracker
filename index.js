@@ -39,15 +39,23 @@ const render = () => {
     })
     .sort((a, b) => a.roll < b.roll)
     .map((creature) => {
-      const row = document.createElement('div');
       const { name, roll, maxHp, dmg, status } = creature;
+      const row = document.createElement('div');
+      row.classList.add('grid');
+      if (dmg >= maxHp) {
+        row.classList.add('knocked-out');
+      }
 
       row.innerHTML = `
-      <span>${name}: ${roll}</span>
+      <span>${name}</span>
+      <span>${roll}</span>
+      <div>
+        <span>${maxHp - dmg} / ${maxHp}</span>
+        <meter value=${maxHp - dmg} low=${maxHp / 2} min=0 max=${maxHp} />
+      </div>
       <form data-name="${name}" class="update-input">
         <input type="number" name="damage" placeholder="0"/>
       </form>
-      <span>HP: ${maxHp - dmg} / ${maxHp}</span>
       <form data-name="${name}" class="update-input">
         <input type="text" name="status" value="${
           status ?? ''
