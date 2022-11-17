@@ -1,31 +1,29 @@
 window.addEventListener('DOMContentLoaded', (_) => {
-  renderCreatures();
+  render();
   document.querySelector('#name').focus();
 });
 
 window.addEventListener('popstate', (_) => {
-  renderCreatures();
+  render();
 });
 
 document.querySelector('.main-form').addEventListener('submit', (event) => {
-    event.preventDefault();
-  
-    const [name, roll, maxHp] = [...new FormData(event.target).values()];
-    const url = new URL(window.location);
-  
-    url.searchParams.append(name, `${roll}-${maxHp}-0`);
-    window.history.pushState({}, '', url);
-    dispatchEvent(new PopStateEvent('popstate'));
-  
-    event.target.reset();
-    document.querySelector('#name').focus();
-  });
+  event.preventDefault();
+
+  const [name, roll, maxHp] = [...new FormData(event.target).values()];
+  const url = new URL(window.location);
+
+  url.searchParams.append(name, `${roll}-${maxHp}-0`);
+
+  document.querySelector('#name').focus();
+  updateUrl(event, url);
+});
 
 document.querySelector('.clear-button').addEventListener('click', (_) => {
   window.location.search = '';
 });
 
-const renderCreatures = () => {
+const render = () => {
   const creatures = [...new URL(window.location).searchParams.entries()]
     .map((entry) => {
       const name = entry[0];
@@ -46,12 +44,14 @@ const renderCreatures = () => {
 
       row.innerHTML = `
       <span>${name}: ${roll}</span>
-      <form data-name="${name}" class="damage-input">
+      <form data-name="${name}" class="update-input">
         <input type="number" name="damage" placeholder="0"/>
       </form>
       <span>HP: ${maxHp - dmg} / ${maxHp}</span>
-      <form data-name="${name}" class="status-input">
-        <input type="text" name="status" value="${status ?? ''}" placeholder="Status" />
+      <form data-name="${name}" class="update-input">
+        <input type="text" name="status" value="${
+          status ?? ''
+        }" placeholder="Status" />
       </form>`;
 
       return row;
@@ -59,49 +59,34 @@ const renderCreatures = () => {
 
   document.querySelector('.creatures').replaceChildren(...creatures);
 
-  document.querySelectorAll('.damage-input').forEach((form) => {
+  document.querySelectorAll('.update-input').forEach((form) => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-
-      const [value] = [...new FormData(event.target).values()];
-      const damage = Number(value);
-    
+      const [key, value] = [...new FormData(event.target).entries()].flat();
+      const name = event.target.dataset.name;
       const url = new URL(window.location);
-      const name = form.dataset.name;
-      const [roll, maxHp, existingDamage] = url.searchParams
-        .get(name)
-        .split('-');
+      let [roll, maxHp, damage, status] = url.searchParams.get(name).split('-');
 
-      const newDataInUrl = `${roll}-${maxHp}-${
-        existingDamage ? Number(existingDamage) + Number(damage) : damage
-      }`;
+      if (key === 'damage') {
+        damage = Number(damage) + Number(value);
+      }
 
-      url.searchParams.set(name, `${newDataInUrl}`);
-      window.history.pushState({}, '', url);
-      dispatchEvent(new PopStateEvent('popstate'));
+      if (key === 'status') {
+        status = value;
+      }
 
-      event.target.reset();
+      const stringData = [roll, maxHp, damage, status]
+        .filter((string) => !!string)
+        .join('-');
+
+      url.searchParams.set(name, `${stringData}`);
+      updateUrl(event, url);
     });
   });
+};
 
-  document.querySelectorAll('.status-input').forEach((form) => {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const [status] = [...new FormData(event.target).values()];
-      const url = new URL(window.location);
-      const name = form.dataset.name;
-      const [roll, maxHp, damage] = url.searchParams
-        .get(name)
-        .split('-');
-
-      const newDataInUrl = `${roll}-${maxHp}-${damage}-${status}`;
-
-      url.searchParams.set(name, `${newDataInUrl}`);
-      window.history.pushState({}, '', url);
-      dispatchEvent(new PopStateEvent('popstate'));
-
-      event.target.reset();
-    });
-  });
+const updateUrl = (event, url) => {
+  event.target.reset();
+  window.history.pushState({}, '', url);
+  dispatchEvent(new PopStateEvent('popstate'));
 };
