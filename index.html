@@ -1,52 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Initiative Roller</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header>
-        <h1>🎲 Initiative Tracker</h1>
-    </header>
-    <main>
-      <div class="table-headers grid">
-        <span>Name</span>
-        <span>Roll</span>
-        <span>HP</span>
-        <span>Damage</span>
-        <span>Status</span>
-      </div>
-      <div class="creatures"></div>
-      <form class="main-form grid">
-        <input
-          placeholder="Name"
-          type="text"
-          name="name"
-          id="name"
-          autocomplete="on"
-          required
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Initiative Tracker</title>
+        <link rel="stylesheet" href="style.css" />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>"
         />
-        <input
-          placeholder="Roll"
-          type="number"
-          name="roll"
-          pattern="[0-9]{2}"
-          required
-        />
-        <input
-          placeholder="Max HP"
-          type="number"
-          name="maxHp"
-          pattern="[0-9]{3}"
-          required
-        />
-        <button class="add-button" type="submit">Add</button>
-      </form>
+    </head>
+    <body>
+        <header>
+            <h1>🎲 Initiative Tracker</h1>
+        </header>
+        <main>
+            <div class="table-headers grid">
+                <span>Name</span>
+                <span>Roll</span>
+                <span>HP</span>
+                <span>Damage</span>
+                <span>Status</span>
+            </div>
+            <div class="creatures"></div>
+            <form class="main-form grid">
+                <input
+                    placeholder="Name"
+                    type="text"
+                    name="name"
+                    id="name"
+                    autocomplete="on"
+                    required
+                />
+                <input
+                    placeholder="Roll"
+                    type="number"
+                    name="roll"
+                    pattern="[0-9]{2}"
+                    required
+                />
+                <input
+                    placeholder="Max HP"
+                    type="number"
+                    name="maxHp"
+                    pattern="[0-9]{3}"
+                    required
+                />
+                <button class="add-button" type="submit">Add</button>
+            </form>
 
-      <button class="clear-button">Clear</button>
-    </main>
-    <script src="index.js"></script>
-  </body>
+            <button class="clear-button">Clear</button>
+        </main>
+        <script src="index.js"></script>
+    </body>
 </html>
